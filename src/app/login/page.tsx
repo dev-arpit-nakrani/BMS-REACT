@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex">
+    <div className="min-h-screen flex">
       {/* Left Side - Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-4 lg:p-8">
         <div className="bg-gradient-to-br from-white to-blue-50 rounded-3xl shadow-2xl p-6 lg:p-10 w-full max-w-lg border border-blue-100">
@@ -88,36 +89,11 @@ export default function Login() {
       {/* Right Side - Vector Image */}
       <div className="hidden lg:flex lg:w-1/2 items-center justify-center p-8">
         <div className="text-center">
-          <svg className="w-96 h-96 mx-auto" viewBox="0 0 400 400" fill="none">
-            {/* Office Building */}
-            <rect x="50" y="150" width="300" height="200" fill="#E5E7EB" stroke="#9CA3AF" strokeWidth="2"/>
-            <rect x="70" y="170" width="40" height="30" fill="#3B82F6"/>
-            <rect x="130" y="170" width="40" height="30" fill="#3B82F6"/>
-            <rect x="190" y="170" width="40" height="30" fill="#3B82F6"/>
-            <rect x="250" y="170" width="40" height="30" fill="#3B82F6"/>
-            <rect x="310" y="170" width="40" height="30" fill="#3B82F6"/>
-            
-            {/* Person */}
-            <circle cx="200" cy="120" r="20" fill="#F59E0B"/>
-            <rect x="185" y="140" width="30" height="40" fill="#3B82F6" rx="5"/>
-            <rect x="180" y="180" width="10" height="25" fill="#1F2937"/>
-            <rect x="210" y="180" width="10" height="25" fill="#1F2937"/>
-            <rect x="170" y="150" width="15" height="20" fill="#F59E0B"/>
-            <rect x="215" y="150" width="15" height="20" fill="#F59E0B"/>
-            
-            {/* Laptop */}
-            <rect x="160" y="200" width="80" height="50" fill="#374151" rx="5"/>
-            <rect x="165" y="205" width="70" height="40" fill="#60A5FA"/>
-            
-            {/* Charts/Graphs */}
-            <rect x="280" y="220" width="60" height="40" fill="#FFFFFF" stroke="#9CA3AF"/>
-            <rect x="285" y="240" width="8" height="15" fill="#10B981"/>
-            <rect x="295" y="235" width="8" height="20" fill="#3B82F6"/>
-            <rect x="305" y="230" width="8" height="25" fill="#8B5CF6"/>
-            <rect x="315" y="225" width="8" height="30" fill="#F59E0B"/>
-          </svg>
-          <h2 className="text-2xl font-bold text-gray-800 mt-6">Manage Your Business</h2>
-          <p className="text-gray-600 mt-2">Streamline operations with our comprehensive management system</p>
+          <img 
+            src="/modern-collaborative-space-creative-diverse-teams_1343342-785.avif" 
+            alt="Modern Collaborative Workspace" 
+            className="w-[650px] h-[550px] mx-auto object-contain rounded-2xl bg-transparent"
+          />
         </div>
       </div>
     </div>

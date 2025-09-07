@@ -11,7 +11,9 @@ const config: Config = {
   important: '#__next',
   plugins: [tailwindcssLogical, tailwindPlugin],
   theme: {
-    extend: {}
+    extend: {
+      secondary: '#82868B' // Grayish
+    }
   }
 }
 

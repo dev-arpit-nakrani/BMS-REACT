@@ -2,15 +2,15 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   basePath: process.env.BASEPATH,
-  redirects: async () => {
+  async redirects() {
     return [
       {
         source: '/',
         destination: '/login',
-        permanent: false
+        permanent: false, // false = 307, true = 308
       }
     ]
-  }
+  },
 }
 
 export default nextConfig

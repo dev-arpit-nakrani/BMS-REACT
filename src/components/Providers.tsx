@@ -1,4 +1,6 @@
 // Type Imports
+import { ToastContainer } from 'react-toastify'
+
 import type { ChildrenType, Direction } from '@core/types'
 
 // Context Imports
@@ -26,6 +28,7 @@ const Providers = async (props: Props) => {
     <VerticalNavProvider>
       <SettingsProvider settingsCookie={settingsCookie} mode={mode}>
         <ThemeProvider direction={direction} systemMode={systemMode}>
+          <ToastContainer hideProgressBar={true} />
           {children}
         </ThemeProvider>
       </SettingsProvider>

@@ -27,3 +27,4 @@ const mergedTheme = (settings: Settings, mode: SystemMode, direction: Theme['dir
 }
 
 export default mergedTheme
+  

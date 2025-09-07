@@ -64,7 +64,7 @@ const CustomThemeProvider = (props: Props) => {
         light: {
           palette: {
             primary: {
-              main: settings.primaryColor,
+              main: '#f54a00',
               light: lighten(settings.primaryColor as string, 0.2),
               dark: darken(settings.primaryColor as string, 0.1)
             }

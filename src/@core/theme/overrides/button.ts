@@ -245,7 +245,8 @@ const button: Theme['components'] = {
               },
               '&.Mui-disabled': {
                 color: 'var(--mui-palette-primary-contrastText)',
-                backgroundColor: 'var(--mui-palette-primary-main)'
+
+                // backgroundColor: 'var(--mui-palette-primary-main)'
               }
             }
           },

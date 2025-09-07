@@ -109,7 +109,7 @@ const LoginV2 = ({ mode }: { mode: SystemMode }) => {
           { 'border-ie': settings.skin === 'bordered' }
         )}
       >
-        <LoginIllustration src={characterIllustration} alt='character-illustration' className='w-100 m-0 h-full' />
+        <LoginIllustration src={characterIllustration} alt='character-illustration' />
         {!hidden && (
           <MaskImg
             alt='mask'
@@ -173,7 +173,9 @@ const LoginV2 = ({ mode }: { mode: SystemMode }) => {
           </form>
           <p style={{ textAlign: 'center', color: 'balck' }}>
             Don’t have an account? <br />
-            <span style={{ color: '#f54a00' }}>Create Now</span>
+            <Typography className='text-end' color='primary.main' component={Link} href='/register'>
+              Create Now
+            </Typography>
           </p>
         </div>
       </div>

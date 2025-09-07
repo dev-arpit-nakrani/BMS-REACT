@@ -109,7 +109,11 @@ const LoginV2 = ({ mode }: { mode: SystemMode }) => {
           { 'border-ie': settings.skin === 'bordered' }
         )}
       >
-        <LoginIllustration src={characterIllustration} alt='character-illustration' />
+        <LoginIllustration
+          src={characterIllustration}
+          alt='character-illustration'
+          style={{ width: '70%', margin: 0, objectFit: 'cover', borderRadius: '12px' }}
+        />
         {!hidden && (
           <MaskImg
             alt='mask'

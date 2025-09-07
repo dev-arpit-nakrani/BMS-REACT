@@ -63,7 +63,7 @@ const MaskImg = styled('img')({
 })
 
 const registerSchema = z.object({
-  username: z.string().min(5,'username is required'),
+  username: z.string().min(5, 'username is required'),
   email: z.string().min(1, 'Email is required').email('Invalid email'),
   password: z.string().min(6, 'Password must be at least 6 characters')
 })
@@ -132,7 +132,11 @@ const Register = ({ mode }: { mode: SystemMode }) => {
           }
         )}
       >
-        <RegisterIllustration src={characterIllustration} alt='character-illustration' />
+        <RegisterIllustration
+          src={characterIllustration}
+          alt='character-illustration'
+          style={{ width: '70%', margin: 0, objectFit: 'cover', borderRadius: '12px' }}
+        />
         {!hidden && (
           <MaskImg
             alt='mask'

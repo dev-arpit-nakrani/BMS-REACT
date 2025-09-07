@@ -116,6 +116,7 @@ const ForgotPass = ({ mode }: { mode: SystemMode }) => {
         <ForgotPasswordIllustration
           src={characterIllustration}
           alt='character-illustration'
+          style={{ width: '70%', margin: 0, objectFit: 'cover', borderRadius: '12px' }}
           className={classnames({ 'scale-x-[-1]': theme.direction === 'rtl' })}
         />
         {!hidden && (

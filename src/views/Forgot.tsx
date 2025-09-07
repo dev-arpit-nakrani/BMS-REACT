@@ -70,7 +70,7 @@ const ForgotPass = ({ mode }: { mode: SystemMode }) => {
   const darkImg = '/images/pages/auth-mask-dark.png'
   const lightImg = '/images/pages/auth-mask-light.png'
   const darkIllustration = '/images/illustrations/auth/v2-forgot-password-dark.png'
-  const lightIllustration = '/images/illustrations/auth/v2-forgot-password-light.png'
+  const lightIllustration = '/images/illustrations/auth/login.jpg'
 
   const { settings } = useSettings()
   const theme = useTheme()

@@ -6,6 +6,9 @@ import { useState } from 'react'
 // Next Imports
 import Link from 'next/link'
 
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
 // MUI Imports
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { styled, useTheme } from '@mui/material/styles'
@@ -20,6 +23,10 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import classnames from 'classnames'
 
 // Type Imports
+import { useForm } from 'react-hook-form'
+
+import { toast } from 'react-toastify'
+
 import type { SystemMode } from '@core/types'
 
 // Component Imports
@@ -29,6 +36,7 @@ import CustomTextField from '@core/components/mui/TextField'
 // Hook Imports
 import { useImageVariant } from '@core/hooks/useImageVariant'
 import { useSettings } from '@core/hooks/useSettings'
+import { EndPoints } from '@/constants/endPoints'
 
 // Styled Custom Components
 const RegisterIllustration = styled('img')(({ theme }) => ({
@@ -54,9 +62,25 @@ const MaskImg = styled('img')({
   zIndex: -1
 })
 
+const registerSchema = z.object({
+  username: z.string().min(5,'username is required'),
+  email: z.string().min(1, 'Email is required').email('Invalid email'),
+  password: z.string().min(6, 'Password must be at least 6 characters')
+})
+
+type registerFormInputs = z.infer<typeof registerSchema>
+
 const Register = ({ mode }: { mode: SystemMode }) => {
   // States
   const [isPasswordShown, setIsPasswordShown] = useState(false)
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<registerFormInputs>({
+    resolver: zodResolver(registerSchema)
+  })
 
   // Vars
   const darkImg = '/images/pages/auth-mask-dark.png'
@@ -79,6 +103,22 @@ const Register = ({ mode }: { mode: SystemMode }) => {
     borderedLightIllustration,
     borderedDarkIllustration
   )
+
+  const onSubmit = async (data: registerFormInputs) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}${EndPoints.login}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+
+    const loginData = await response.json()
+
+    if (!loginData.status) {
+      toast.error(loginData.description)
+    }
+
+    console.log(loginData)
+  }
 
   const handleClickShowPassword = () => setIsPasswordShown(show => !show)
 
@@ -110,14 +150,32 @@ const Register = ({ mode }: { mode: SystemMode }) => {
             <Typography variant='h4'>Adventure starts here 🚀</Typography>
             <Typography>Make your app management easy and fun!</Typography>
           </div>
-          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()} className='flex flex-col gap-6'>
-            <CustomTextField autoFocus fullWidth label='Username' placeholder='Enter your username' />
-            <CustomTextField fullWidth label='Email' placeholder='Enter your email' />
+          <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6'>
+            <CustomTextField
+              autoFocus
+              fullWidth
+              label='Username'
+              placeholder='Enter your username'
+              {...register('username')}
+              error={!!errors.username}
+              helperText={errors.username?.message}
+            />
+            <CustomTextField
+              fullWidth
+              label='Email'
+              placeholder='Enter your email'
+              {...register('email')}
+              error={!!errors.email}
+              helperText={errors.email?.message}
+            />
             <CustomTextField
               fullWidth
               label='Password'
               placeholder='············'
               type={isPasswordShown ? 'text' : 'password'}
+              {...register('password')}
+              error={!!errors.password}
+              helperText={errors.password?.message}
               slotProps={{
                 input: {
                   endAdornment: (

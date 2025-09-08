@@ -3,6 +3,8 @@
 // React Imports
 import { useState } from 'react'
 
+import { useRouter } from 'next/navigation'
+
 // Next Imports
 import Link from 'next/link'
 
@@ -18,6 +20,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Checkbox from '@mui/material/Checkbox'
 import Button from '@mui/material/Button'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import CircularProgress from '@mui/material/CircularProgress'
 
 // Third-party Imports
 import classnames from 'classnames'
@@ -63,9 +66,9 @@ const MaskImg = styled('img')({
 })
 
 const registerSchema = z.object({
-  username: z.string().min(5, 'username is required'),
   email: z.string().min(1, 'Email is required').email('Invalid email'),
-  password: z.string().min(6, 'Password must be at least 6 characters')
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  confirmPassword: z.string().min(6, 'Confirm Password is required')
 })
 
 type registerFormInputs = z.infer<typeof registerSchema>
@@ -73,6 +76,10 @@ type registerFormInputs = z.infer<typeof registerSchema>
 const Register = ({ mode }: { mode: SystemMode }) => {
   // States
   const [isPasswordShown, setIsPasswordShown] = useState(false)
+  const [isConfirmPasswordShown, setIsConfirmPasswordShown] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const router = useRouter()
 
   const {
     register,
@@ -105,7 +112,15 @@ const Register = ({ mode }: { mode: SystemMode }) => {
   )
 
   const onSubmit = async (data: registerFormInputs) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}${EndPoints.login}`, {
+    if (data.password !== data.confirmPassword) {
+      toast.error('Password and Confirm Password Not Matched')
+
+      return
+    }
+
+    setIsLoading(true)
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}${EndPoints.register}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -115,12 +130,15 @@ const Register = ({ mode }: { mode: SystemMode }) => {
 
     if (!loginData.status) {
       toast.error(loginData.description)
+    } else {
+      setIsLoading(false)
+      localStorage.setItem('email', data.email)
+      router.push('/otp')
     }
-
-    console.log(loginData)
   }
 
   const handleClickShowPassword = () => setIsPasswordShown(show => !show)
+  const handleClickShowConfirmPassword = () => setIsConfirmPasswordShown(show => !show)
 
   return (
     <div className='flex bs-full justify-center'>
@@ -156,15 +174,6 @@ const Register = ({ mode }: { mode: SystemMode }) => {
           </div>
           <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6'>
             <CustomTextField
-              autoFocus
-              fullWidth
-              label='Username'
-              placeholder='Enter your username'
-              {...register('username')}
-              error={!!errors.username}
-              helperText={errors.username?.message}
-            />
-            <CustomTextField
               fullWidth
               label='Email'
               placeholder='Enter your email'
@@ -192,6 +201,30 @@ const Register = ({ mode }: { mode: SystemMode }) => {
                 }
               }}
             />
+            <CustomTextField
+              fullWidth
+              label='Confirm Password'
+              placeholder='············'
+              type={isConfirmPasswordShown ? 'text' : 'password'}
+              {...register('confirmPassword')}
+              error={!!errors.confirmPassword}
+              helperText={errors.confirmPassword?.message}
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        edge='end'
+                        onClick={handleClickShowConfirmPassword}
+                        onMouseDown={e => e.preventDefault()}
+                      >
+                        <i className={isPasswordShown ? 'tabler-eye-off' : 'tabler-eye'} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }
+              }}
+            />
             <FormControlLabel
               control={<Checkbox />}
               label={
@@ -204,7 +237,7 @@ const Register = ({ mode }: { mode: SystemMode }) => {
               }
             />
             <Button fullWidth variant='contained' type='submit'>
-              Get OTP
+              {isLoading ? <CircularProgress size={20} color='info' /> : 'GET OTP'}
             </Button>
             <div className='flex flex-col justify-center items-center gap-2'>
               <Typography>Already have an account?</Typography>

@@ -1,3 +1,4 @@
 export const EndPoints = {
-  login: '/login'
+  login: '/login',
+  register:'/registerStore'
 }

@@ -29,7 +29,7 @@ const Providers = async (props: Props) => {
     <VerticalNavProvider>
       <SettingsProvider settingsCookie={settingsCookie} mode={mode}>
         <ThemeProvider direction={direction} systemMode={systemMode}>
-          <ToastContainer hideProgressBar={true} />
+          <ToastContainer hideProgressBar={true} closeButton={false} />
           <ReduxProvider>{children}</ReduxProvider>
         </ThemeProvider>
       </SettingsProvider>
